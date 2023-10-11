@@ -8,10 +8,12 @@ import org.springframework.util.CollectionUtils;
 import ru.practicum.statsservice.dto.EndpointHitDto;
 import ru.practicum.statsservice.dto.GetStatsRequest;
 import ru.practicum.statsservice.dto.ViewStatsDto;
+import ru.practicum.statsservice.exception.ValidationException;
 import ru.practicum.statsservice.mapper.EndpointHitMapper;
 import ru.practicum.statsservice.model.EndpointHit;
 import ru.practicum.statsservice.repository.EndpointHitRepository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Slf4j
@@ -33,22 +35,39 @@ public class EndpointHitServiceImpl implements EndpointHitService {
 
     @Override
     public List<ViewStatsDto> getStats(GetStatsRequest request) {
+        LocalDateTime start = request.getStart();
+        LocalDateTime end = request.getEnd();
+        if (start == null){
+            start = LocalDateTime.now().minusYears(100);
+        }
+        if (end == null){
+            end = LocalDateTime.now().plusYears(100);
+        }
+        if (start.isAfter(end) || start.isEqual(end)){
+            throw new ValidationException("Дата начала отбора должна быть до даты конца отбора.");
+        }
         if (CollectionUtils.isEmpty(request.getUris())) {
-            if (request.getUnique()) {
-                return endpointHitRepository.getViewStatsWithUniqueIps(
-                        request.getStart(), request.getEnd());
-            } else {
-                return endpointHitRepository.getViewStats(
-                        request.getStart(), request.getEnd());
-            }
+            return handleStatsWithoutUris(request);
         } else {
-            if (request.getUnique()) {
-                return endpointHitRepository.getViewStatsByUriInWithUniqueIps(
-                        request.getStart(), request.getEnd(), request.getUris());
-            } else {
-                return endpointHitRepository.getViewStatsByUriIn(
-                        request.getStart(), request.getEnd(), request.getUris());
-            }
+            return handleStatsWithUris(request);
+        }
+    }
+
+    private List<ViewStatsDto> handleStatsWithoutUris(GetStatsRequest request) {
+        if (request.getUnique()) {
+            return endpointHitRepository.getViewStatsWithUniqueIps(request.getStart(), request.getEnd());
+        } else {
+            return endpointHitRepository.getViewStats(request.getStart(), request.getEnd());
+        }
+    }
+
+    private List<ViewStatsDto> handleStatsWithUris(GetStatsRequest request) {
+        if (request.getUnique()) {
+            return endpointHitRepository.getViewStatsByUriInWithUniqueIps(
+                    request.getStart(), request.getEnd(), request.getUris());
+        } else {
+            return endpointHitRepository.getViewStatsByUriIn(
+                    request.getStart(), request.getEnd(), request.getUris());
         }
     }
 
