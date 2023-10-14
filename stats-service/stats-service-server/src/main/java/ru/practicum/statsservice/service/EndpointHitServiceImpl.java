@@ -37,13 +37,13 @@ public class EndpointHitServiceImpl implements EndpointHitService {
     public List<ViewStatsDto> getStats(GetStatsRequest request) {
         LocalDateTime start = request.getStart();
         LocalDateTime end = request.getEnd();
-        if (start == null){
+        if (start == null) {
             start = LocalDateTime.now().minusYears(100);
         }
-        if (end == null){
+        if (end == null) {
             end = LocalDateTime.now().plusYears(100);
         }
-        if (start.isAfter(end) || start.isEqual(end)){
+        if (start.isAfter(end) || start.isEqual(end)) {
             throw new ValidationException("Дата начала отбора должна быть до даты конца отбора.");
         }
         if (CollectionUtils.isEmpty(request.getUris())) {
