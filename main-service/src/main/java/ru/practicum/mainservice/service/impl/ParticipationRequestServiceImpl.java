@@ -14,7 +14,6 @@ import ru.practicum.mainservice.repository.ParticipationRequestRepository;
 import ru.practicum.mainservice.repository.UserRepository;
 import ru.practicum.mainservice.service.ParticipationRequestService;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Slf4j
