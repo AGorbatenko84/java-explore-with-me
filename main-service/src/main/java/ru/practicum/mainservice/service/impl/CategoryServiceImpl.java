@@ -21,7 +21,7 @@ import java.util.List;
 @Transactional(readOnly = true)
 public class CategoryServiceImpl implements CategoryService {
 
-    private static final String CATEGORY_NOT_FOUND = "Category with id %d not found";
+    private static final String CATEGORY_NOT_FOUND = "Категория с id %d не найдена";
     private final CategoryRepository categoryRepository;
     private final CategoryMapper categoryMapper;
 

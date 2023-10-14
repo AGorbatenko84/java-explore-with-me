@@ -10,7 +10,7 @@ import ru.practicum.statsservice.client.StatsServiceClient;
 @Configuration
 @RequiredArgsConstructor
 public class StatsServiceClientConfiguration {
-    @Value("${STATS_SERVER_URL:http://localhost:9090}")
+    @Value("${stats-service-server.url}")
     private String serverUrl;
     private final RestTemplateBuilder builder;
 
