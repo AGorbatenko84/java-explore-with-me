@@ -54,10 +54,10 @@ public class EventPrivateRestController {
     @PatchMapping("/{eventId}")
     @ResponseStatus(HttpStatus.OK)
     public EventFullDto patch(
-            @RequestBody @Valid UpdateEventUserRequest request,
+            @RequestBody @Valid UpdateEventUserRequest updateEventRequest,
             @PathVariable Long userId,
             @PathVariable Long eventId) {
-        return eventService.patch(request, userId, eventId);
+        return eventService.patch(updateEventRequest, userId, eventId);
     }
 
     @GetMapping("/{eventId}/requests")

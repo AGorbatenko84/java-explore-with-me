@@ -12,6 +12,7 @@ import java.time.LocalDateTime;
 @Slf4j
 @RestControllerAdvice
 public class ExceptionApiHandler {
+    private static final String CONDITIONS_NOT_MET = "Для запрошенной операции условия не выполнены.";
 
     @ExceptionHandler
     @ResponseStatus(HttpStatus.NOT_FOUND)
@@ -33,7 +34,7 @@ public class ExceptionApiHandler {
         error.setTimestamp(LocalDateTime.now());
         error.setStatus(HttpStatus.BAD_REQUEST);
         error.setMessage(e.getMessage());
-        error.setReason("Для запрошенной операции условия не выполнены.");
+        error.setReason(CONDITIONS_NOT_MET);
         return error;
     }
 
@@ -45,7 +46,7 @@ public class ExceptionApiHandler {
         error.setTimestamp(LocalDateTime.now());
         error.setStatus(HttpStatus.CONFLICT);
         error.setMessage(e.getMessage());
-        error.setReason("Для запрошенной операции условия не выполнены.");
+        error.setReason(CONDITIONS_NOT_MET);
         return error;
     }
 
@@ -57,7 +58,7 @@ public class ExceptionApiHandler {
         error.setTimestamp(LocalDateTime.now());
         error.setStatus(HttpStatus.CONFLICT);
         error.setMessage(e.getMessage());
-        error.setReason("Для запрошенной операции условия не выполнены.");
+        error.setReason(CONDITIONS_NOT_MET);
         return error;
     }
 
@@ -69,7 +70,7 @@ public class ExceptionApiHandler {
         error.setTimestamp(LocalDateTime.now());
         error.setStatus(HttpStatus.CONFLICT);
         error.setMessage(e.getMessage());
-        error.setReason("Для запрошенной операции условия не выполнены.");
+        error.setReason(CONDITIONS_NOT_MET);
         return error;
     }
 
