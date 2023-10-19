@@ -1,0 +1,744 @@
+{
+  "info": {
+    "_postman_id": "6f228c17-961d-4768-a0a1-369bd97163f1",
+    "name": "Test Explore With Me - Feature comments",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "23151649"
+  },
+  "item": [
+    {
+      "name": "Create comment",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 201\", function () {",
+              "    pm.expect(pm.response.code).to.be.oneOf([201]);",
+              "});",
+              "pm.test(\"Test create comment\", function () {",
+              "    var jsonData = pm.response.json();",
+              "    pm.expect(jsonData.id, '\"id\" field').to.eql(1);",
+              "    pm.expect(jsonData.event, '\"event\" field').to.eql(1);",
+              "    pm.expect(jsonData.author.id, '\"author.id\" field').to.eql(1);",
+              "    pm.expect(jsonData.text, '\"text\" field').to.eql('Test comment');",
+              "    pm.expect(jsonData.created, '\"created\" field').not.eql(null);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"text\": \"Test comment\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/users/1/comments?eventId=1",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "users",
+            "1",
+            "comments"
+          ],
+          "query": [
+            {
+              "key": "eventId",
+              "value": "1"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Failed create comment by wrong event id",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"The response should contain a status code 404 and data in json format\", function () {",
+              "    pm.response.to.have.status(404);",
+              "    pm.response.to.be.withBody;",
+              "    pm.response.to.be.json;",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"text\": \"Test comment\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/users/1/comments?eventId=0",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "users",
+            "1",
+            "comments"
+          ],
+          "query": [
+            {
+              "key": "eventId",
+              "value": "0"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Failed create comment by wrong author id",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"The response should contain a status code 404 and data in json format\", function () {",
+              "    pm.response.to.have.status(404);",
+              "    pm.response.to.be.withBody;",
+              "    pm.response.to.be.json;",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"text\": \"Test comment\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/users/0/comments?eventId=1",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "users",
+            "0",
+            "comments"
+          ],
+          "query": [
+            {
+              "key": "eventId",
+              "value": "1"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Failed create comment to unpublished event",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"The response should contain a status code 409 and data in json format\", function () {",
+              "    pm.response.to.have.status(409);",
+              "    pm.response.to.be.withBody;",
+              "    pm.response.to.be.json;",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"text\": \"Test comment\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/users/1/comments?eventId=5",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "users",
+            "1",
+            "comments"
+          ],
+          "query": [
+            {
+              "key": "eventId",
+              "value": "5"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Patch comment",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.expect(pm.response.code).to.be.oneOf([200]);",
+              "});",
+              "pm.test(\"Test update comment\", function () {",
+              "    var jsonData = pm.response.json();",
+              "    pm.expect(jsonData.id, '\"id\" field').to.eql(1);",
+              "    pm.expect(jsonData.event, '\"event\" field').to.eql(1);",
+              "    pm.expect(jsonData.author.id, '\"author.id\" field').to.eql(1);",
+              "    pm.expect(jsonData.text, '\"text\" field').to.eql('Updated comment');",
+              "    pm.expect(jsonData.created, '\"created\" field').not.eql(null);",
+              "    pm.expect(jsonData.updated, '\"updated\" field').not.eql(null);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "PATCH",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"id\": 1,\n    \"text\": \"Updated comment\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/users/1/comments",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "users",
+            "1",
+            "comments"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Failed patch comment by wrong comment id",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"The response should contain a status code 404 and data in json format\", function () {",
+              "    pm.response.to.have.status(404);",
+              "    pm.response.to.be.withBody;",
+              "    pm.response.to.be.json;",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "PATCH",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"id\": 0,\n    \"text\": \"Updated comment\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/users/1/comments",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "users",
+            "1",
+            "comments"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Failed patch comment by another user",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"The response should contain a status code 409 and data in json format\", function () {",
+              "    pm.response.to.have.status(409);",
+              "    pm.response.to.be.withBody;",
+              "    pm.response.to.be.json;",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "PATCH",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"id\": 1,\n    \"text\": \"Updated comment\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/users/2/comments",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "users",
+            "2",
+            "comments"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get own comments",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.expect(pm.response.code).to.be.oneOf([200]);",
+              "});",
+              "pm.test(\"Test get own comments\", function () {",
+              "    var jsonData = pm.response.json();",
+              "    pm.expect(jsonData.length, 'comments count in total').to.eql(1);",
+              "",
+              "    pm.expect(jsonData[0].id, '\"id\" field').to.eql(1);",
+              "    pm.expect(jsonData[0].event, '\"event\" field').to.eql(1);",
+              "    pm.expect(jsonData[0].author.id, '\"author.id\" field').to.eql(1);",
+              "    pm.expect(jsonData[0].text, '\"text\" field').to.eql('Updated comment');",
+              "    pm.expect(jsonData[0].created, '\"created\" field').not.eql(null);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/users/1/comments",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "users",
+            "1",
+            "comments"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Create another comment",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 201\", function () {",
+              "    pm.expect(pm.response.code).to.be.oneOf([201]);",
+              "});",
+              "pm.test(\"Test create another comment\", function () {",
+              "    var jsonData = pm.response.json();",
+              "    pm.expect(jsonData.id, '\"id\" field').to.eql(2);",
+              "    pm.expect(jsonData.event, '\"event\" field').to.eql(1);",
+              "    pm.expect(jsonData.author.id, '\"author.id\" field').to.eql(2);",
+              "    pm.expect(jsonData.text, '\"text\" field').to.eql('Another comment');",
+              "    pm.expect(jsonData.created, '\"created\" field').not.eql(null);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"text\": \"Another comment\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/users/2/comments?eventId=1",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "users",
+            "2",
+            "comments"
+          ],
+          "query": [
+            {
+              "key": "eventId",
+              "value": "1"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get event comments",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.expect(pm.response.code).to.be.oneOf([200]);",
+              "});",
+              "pm.test(\"Test get event comments\", function () {",
+              "    var jsonData = pm.response.json();",
+              "    pm.expect(jsonData.length, 'comments count in total').to.eql(2);",
+              "",
+              "    pm.expect(jsonData[0].id, '\"id\" field').to.eql(2);",
+              "    pm.expect(jsonData[0].event, '\"event\" field').to.eql(1);",
+              "    pm.expect(jsonData[0].author.id, '\"author.id\" field').to.eql(2);",
+              "    pm.expect(jsonData[0].text, '\"text\" field').to.eql('Another comment');",
+              "    pm.expect(jsonData[0].created, '\"created\" field').not.eql(null);",
+              "",
+              "    pm.expect(jsonData[1].id, '\"id\" field').to.eql(1);",
+              "    pm.expect(jsonData[1].event, '\"event\" field').to.eql(1);",
+              "    pm.expect(jsonData[1].author.id, '\"author.id\" field').to.eql(1);",
+              "    pm.expect(jsonData[1].text, '\"text\" field').to.eql('Updated comment');",
+              "    pm.expect(jsonData[1].created, '\"created\" field').not.eql(null);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/events/1/comments",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "events",
+            "1",
+            "comments"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Search events",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.expect(pm.response.code).to.be.oneOf([200]);",
+              "});",
+              "pm.test(\"Test get event comments\", function () {",
+              "    var jsonData = pm.response.json();",
+              "    pm.expect(jsonData.length, 'comments count in total').to.eql(1);",
+              "",
+              "    pm.expect(jsonData[0].id, '\"id\" field').to.eql(2);",
+              "    pm.expect(jsonData[0].event, '\"event\" field').to.eql(1);",
+              "    pm.expect(jsonData[0].author.id, '\"author.id\" field').to.eql(2);",
+              "    pm.expect(jsonData[0].text, '\"text\" field').to.eql('Another comment');",
+              "    pm.expect(jsonData[0].created, '\"created\" field').not.eql(null);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/comments/search?text=anot",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "comments",
+            "search"
+          ],
+          "query": [
+            {
+              "key": "text",
+              "value": "anot"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Search events with empty text",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.expect(pm.response.code).to.be.oneOf([200]);",
+              "});",
+              "pm.test(\"Test get event comments\", function () {",
+              "    var jsonData = pm.response.json();",
+              "    pm.expect(jsonData.length, 'comments count in total').to.eql(0);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/comments/search?text=",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "comments",
+            "search"
+          ],
+          "query": [
+            {
+              "key": "text",
+              "value": ""
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Delete comment",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.expect(pm.response.code).to.be.oneOf([204]);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/admin/comments/1",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "admin",
+            "comments",
+            "1"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Failed delete comment by wrong comment id",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"The response should contain a status code 404 and data in json format\", function () {",
+              "    pm.response.to.have.status(404);",
+              "    pm.response.to.be.withBody;",
+              "    pm.response.to.be.json;",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/admin/comments/0",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "admin",
+            "comments",
+            "0"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get event comments after delete comment",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.expect(pm.response.code).to.be.oneOf([200]);",
+              "});",
+              "pm.test(\"Test get event comments\", function () {",
+              "    var jsonData = pm.response.json();",
+              "    pm.expect(jsonData.length, 'comments count in total').to.eql(1);",
+              "",
+              "    pm.expect(jsonData[0].id, '\"id\" field').to.eql(2);",
+              "    pm.expect(jsonData[0].event, '\"event\" field').to.eql(1);",
+              "    pm.expect(jsonData[0].author.id, '\"author.id\" field').to.eql(2);",
+              "    pm.expect(jsonData[0].text, '\"text\" field').to.eql('Another comment');",
+              "    pm.expect(jsonData[0].created, '\"created\" field').not.eql(null);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/events/1/comments",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "events",
+            "1",
+            "comments"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Patch comment by admin",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.expect(pm.response.code).to.be.oneOf([200]);",
+              "});",
+              "pm.test(\"Test update comment\", function () {",
+              "    var jsonData = pm.response.json();",
+              "    pm.expect(jsonData.id, '\"id\" field').to.eql(2);",
+              "    pm.expect(jsonData.event, '\"event\" field').to.eql(1);",
+              "    pm.expect(jsonData.author.id, '\"author.id\" field').to.eql(2);",
+              "    pm.expect(jsonData.text, '\"text\" field').to.eql('Updated by admin comment');",
+              "    pm.expect(jsonData.created, '\"created\" field').not.eql(null);",
+              "    pm.expect(jsonData.updated, '\"updated\" field').not.eql(null);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "PATCH",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"id\": 2,\n    \"text\": \"Updated by admin comment\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/admin/comments",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "admin",
+            "comments"
+          ]
+        }
+      },
+      "response": []
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8080"
+    }
+  ]
+}
