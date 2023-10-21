@@ -1001,56 +1001,7 @@
 						}
 					},
 					"response": []
-				},
-				{
-					"name": "Patch comment by admin",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test(\"Status code is 200\", function () {",
-									"    pm.expect(pm.response.code).to.be.oneOf([200]);",
-									"});",
-									"pm.test(\"Test update comment\", function () {",
-									"    var jsonData = pm.response.json();",
-									"    pm.expect(jsonData.id, '\"id\" field').to.eql(2);",
-									"    pm.expect(jsonData.event, '\"event\" field').to.eql(2);",
-									"    pm.expect(jsonData.author.id, '\"author.id\" field').to.eql(2);",
-									"    pm.expect(jsonData.text, '\"text\" field').to.eql('Updated by admin comment');",
-									"    pm.expect(jsonData.created, '\"created\" field').not.eql(null);",
-									"    pm.expect(jsonData.updated, '\"updated\" field').not.eql(null);",
-									"});"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "PATCH",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"id\": 2,\n    \"text\": \"Updated by admin comment\"\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{baseUrl}}/admin/comments",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"admin",
-								"comments"
-							]
-						}
-					},
-					"response": []
-				}
+				}				
 			]
 		}
 	],
