@@ -31,10 +31,13 @@
 									"\r",
 									"pm.test(\"Test create user\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
-									"    pm.expect(jsonData.id, '\"id\" field').to.eql(1);    \r",
+									"    pm.expect(jsonData).to.have.property('id');\r",
+									"    pm.globals.set(\"userId1\", jsonData.id);  \r",
 									"    pm.expect(jsonData.name, '\"name\" field').to.eql(\"User 1\");\r",
 									"    pm.expect(jsonData.email, '\"email\" field').to.eql(\"user1@mail.ru\");\r",
-									"});"
+									"});\r",
+									"\r",
+									""
 								],
 								"type": "text/javascript"
 							}
@@ -87,7 +90,8 @@
 									"\r",
 									"pm.test(\"Test create user\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
-									"    pm.expect(jsonData.id, '\"id\" field').to.eql(2);    \r",
+									"    pm.expect(jsonData).to.have.property('id');\r",
+									"    pm.globals.set(\"userId1\", jsonData.id);     \r",
 									"    pm.expect(jsonData.name, '\"name\" field').to.eql(\"User 2\");\r",
 									"    pm.expect(jsonData.email, '\"email\" field').to.eql(\"user2@mail.ru\");\r",
 									"});"
