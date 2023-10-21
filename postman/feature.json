@@ -209,6 +209,12 @@
 								"exec": [
 									"pm.test(\"Status code is 201\", function () {\r",
 									"    pm.expect(pm.response.code).to.be.oneOf([201]);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Test comment 'id' field\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('id');\r",
+									"    pm.globals.set(\"eventId1\", jsonData.id);\r",
 									"});"
 								],
 								"type": "text/javascript"
@@ -260,6 +266,12 @@
 								"exec": [
 									"pm.test(\"Status code is 201\", function () {\r",
 									"    pm.expect(pm.response.code).to.be.oneOf([201]);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Test comment 'id' field\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('id');\r",
+									"    pm.globals.set(\"eventId1\", jsonData.id);\r",
 									"});"
 								],
 								"type": "text/javascript"
@@ -543,7 +555,7 @@
 							}
 						},
 						"url": {
-							"raw": "{{baseUrl}}/users/1/comments?eventId=2",
+							"raw": "{{baseUrl}}/users/1/comments?eventId={{eventId2}}",
 							"host": [
 								"{{baseUrl}}"
 							],
@@ -555,7 +567,7 @@
 							"query": [
 								{
 									"key": "eventId",
-									"value": "2"
+									"value": "{{eventId2}}"
 								}
 							]
 						}
@@ -712,7 +724,7 @@
 									"    var jsonData = pm.response.json();",
 									"    pm.expect(jsonData.length, 'comments count in total').to.eql(1);",
 									"",
-									"    pm.expect(jsonData[0].id, '\"id\" field').to.eql(1);",
+									"    pm.expect(jsonData[0].id, '\"id\" field').to.eql(2);",
 									"    pm.expect(jsonData[0].event, '\"event\" field').to.eql(1);",
 									"    pm.expect(jsonData[0].author.id, '\"author.id\" field').to.eql(1);",
 									"    pm.expect(jsonData[0].text, '\"text\" field').to.eql('Updated comment');",
@@ -752,7 +764,7 @@
 									"});",
 									"pm.test(\"Test create another comment\", function () {",
 									"    var jsonData = pm.response.json();",
-									"    pm.expect(jsonData.id, '\"id\" field').to.eql(2);",
+									"    pm.expect(jsonData.id, '\"id\" field').to.eql(3);",
 									"    pm.expect(jsonData.event, '\"event\" field').to.eql(1);",
 									"    pm.expect(jsonData.author.id, '\"author.id\" field').to.eql(2);",
 									"    pm.expect(jsonData.text, '\"text\" field').to.eql('Another comment');",
@@ -809,7 +821,7 @@
 									"    var jsonData = pm.response.json();",
 									"    pm.expect(jsonData.length, 'comments count in total').to.eql(2);",
 									"",
-									"    pm.expect(jsonData[0].id, '\"id\" field').to.eql(2);",
+									"    pm.expect(jsonData[0].id, '\"id\" field').to.eql(3);",
 									"    pm.expect(jsonData[0].event, '\"event\" field').to.eql(1);",
 									"    pm.expect(jsonData[0].author.id, '\"author.id\" field').to.eql(2);",
 									"    pm.expect(jsonData[0].text, '\"text\" field').to.eql('Another comment');",
@@ -857,7 +869,7 @@
 									"    var jsonData = pm.response.json();",
 									"    pm.expect(jsonData.length, 'comments count in total').to.eql(1);",
 									"",
-									"    pm.expect(jsonData[0].id, '\"id\" field').to.eql(2);",
+									"    pm.expect(jsonData[0].id, '\"id\" field').to.eql(3);",
 									"    pm.expect(jsonData[0].event, '\"event\" field').to.eql(1);",
 									"    pm.expect(jsonData[0].author.id, '\"author.id\" field').to.eql(2);",
 									"    pm.expect(jsonData[0].text, '\"text\" field').to.eql('Another comment');",
@@ -1011,7 +1023,7 @@
 									"    var jsonData = pm.response.json();",
 									"    pm.expect(jsonData.length, 'comments count in total').to.eql(1);",
 									"",
-									"    pm.expect(jsonData[0].id, '\"id\" field').to.eql(2);",
+									"    pm.expect(jsonData[0].id, '\"id\" field').to.eql(3);",
 									"    pm.expect(jsonData[0].event, '\"event\" field').to.eql(1);",
 									"    pm.expect(jsonData[0].author.id, '\"author.id\" field').to.eql(2);",
 									"    pm.expect(jsonData[0].text, '\"text\" field').to.eql('Another comment');",
@@ -1052,7 +1064,7 @@
 									"pm.test(\"Test update comment\", function () {",
 									"    var jsonData = pm.response.json();",
 									"    pm.expect(jsonData.id, '\"id\" field').to.eql(2);",
-									"    pm.expect(jsonData.event, '\"event\" field').to.eql(1);",
+									"    pm.expect(jsonData.event, '\"event\" field').to.eql(2);",
 									"    pm.expect(jsonData.author.id, '\"author.id\" field').to.eql(2);",
 									"    pm.expect(jsonData.text, '\"text\" field').to.eql('Updated by admin comment');",
 									"    pm.expect(jsonData.created, '\"created\" field').not.eql(null);",
