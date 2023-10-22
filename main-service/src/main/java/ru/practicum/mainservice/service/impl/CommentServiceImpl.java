@@ -120,7 +120,7 @@ public class CommentServiceImpl implements CommentService {
         return commentMapper.toDto(updatedComment);
     }
 
-    private void validateAuthor(Comment com, Long userId){
+    private void validateAuthor(Comment com, Long userId) {
         if (!com.getAuthor().getId().equals(userId)) {
             throw new ConflictException("Только автор может внести изменения в комментарий.");
         }
