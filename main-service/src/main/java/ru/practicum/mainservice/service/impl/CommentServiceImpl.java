@@ -66,9 +66,7 @@ public class CommentServiceImpl implements CommentService {
         Comment comment = commentRepository.findById(dto.getId()).orElseThrow(() -> {
             throw new NotFoundException(String.format(COMMENT_NOT_FOUND, dto.getId()));
         });
-        if (!comment.getAuthor().getId().equals(userId)) {
-            throw new ConflictException("Только автор может внести изменения в комментарий.");
-        }
+        validateAuthor(comment, userId);
         if (comment.getEvent().getState() != EventState.PUBLISHED) {
             throw new ConflictException("Изменить комментарий можно только у опубликованного события.");
         }
@@ -120,5 +118,11 @@ public class CommentServiceImpl implements CommentService {
         log.info("Комментарий с id {} изменен.", comment.getId());
         Comment updatedComment = commentRepository.saveAndFlush(comment);
         return commentMapper.toDto(updatedComment);
+    }
+
+    private void validateAuthor(Comment com, Long userId){
+        if (!com.getAuthor().getId().equals(userId)) {
+            throw new ConflictException("Только автор может внести изменения в комментарий.");
+        }
     }
 }
