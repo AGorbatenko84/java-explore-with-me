@@ -25,5 +25,5 @@ Java 11, Spring Boot, Docker, PostgreSQL, Maven, Spring Data JPA
 - Распаковать zip-файл
 - Открыть приложение в IntellijIdea
 - mvn clean package
-- docker-compose up
+   docker-compose up
 - Тестовое приложение с коллекцией тестов postman в пакете postman
